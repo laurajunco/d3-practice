@@ -84,3 +84,8 @@ Takes the empty placeholder selection created by enter() and appends a p element
 
 .text("New paragraph!")
 Takes the reference to the newly created p and inserts a text value.
+
+## Drawing with data
+- attr() sets DOM attribute values, whereas style() applies CSS styles directly to an element.
+
+### drawing svgs
