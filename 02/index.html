@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         <title>D3 Page Template</title>
-        <script type="text/javascript" src="d3.js"></script>
+        <script type="text/javascript" src="/d3.js"></script>
         <style>
             div.bar {
                 display: inline-block;
@@ -16,23 +16,6 @@
     
     <body>
         <script type="text/javascript">
-            //fecth csv
-            var dataset;
-            d3.csv("food.csv", function(d) {
-                return {
-                    Food: d.Food, //deja a food igual
-                    Deliciousness: parseFloat(d.Deliciousness) //convertir a float
-                };
-            }).then(function(data, error){
-                if (error) {  //If error is not null, something went wrong.
-                    console.log(error);
-                } else {
-                    //console.log(data);
-                    //dataset = data;
-                    //Include other code to execute after successful file load here
-                }
-            });
-
             var dataset = [];//Initialize empty array
             for (var i = 0; i < 25; i++) {            //Loop 25 times
                 var newNumber = Math.round(Math.random() * 30);   //New random number (0-30)
