@@ -44,3 +44,17 @@
     myName = true;
     typeof myName;          //Returns "boolean"
 ```
+
+- python -m SimpleHTTPServer
+
+## Data
+- Data is structured information with potential for meaning
+- Whatever your data, it can’t be made useful and visual until it is attached to something. In D3 lingo, the data must be bound to elements within the page.
+
+- Many, but not all, D3 methods return a selection (actually, a reference to a selection), which enables this handy technique of method chaining. Typically, a method returns a reference to the element that it just acted on, but not always.
+
+- With D3, we bind our data input values to elements in the DOM. Binding is like “attaching” or associating data to specific elements, so that later you can reference those values to apply mapping rules. Without the binding step, we have a bunch of data-less, unmappable DOM elements. No one wants that.
+
+
+### loading data
+- csv() takes two arguments: a string representing the path of the CSV file to load in, and an anonymous function to be used as a callback function. The callback function is “called” only after the CSV file has been loaded into memory. So you can be sure that, by the time the callback is called, d3.csv() is done executing.

@@ -1,0 +1,35 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="d3.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            //fecth csv
+            var dataset;
+            d3.csv("food.csv", function(d) {
+                return {
+                    Food: d.Food, //deja a food igual
+                    Deliciousness: parseFloat(d.Deliciousness) //convertir a float
+                };
+            }).then(function(data, error){
+                if (error) {  //If error is not null, something went wrong.
+                    console.log(error);
+                } else {
+                    console.log(data);
+                    dataset = data;
+                    //Include other code to execute after successful file load here
+                }
+            });
+
+            dataset = [ 5, 10, 15, 20, 25 ];
+
+            var p = d3.select("body")
+                .append("p");
+
+                p.text("New paragraph!");
+
+        </script>
+    </body>
+</html>
