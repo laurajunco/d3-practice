@@ -58,3 +58,29 @@
 
 ### loading data
 - csv() takes two arguments: a string representing the path of the CSV file to load in, and an anonymous function to be used as a callback function. The callback function is “called” only after the CSV file has been loaded into memory. So you can be sure that, by the time the callback is called, d3.csv() is done executing.
+
+d3.select("body").selectAll("p")
+            .data(dataset)
+            .enter()
+            .append("p")
+            .text("New paragraph!");
+
+- Here’s what’s happening:
+
+d3.select("body")
+Finds the body in the DOM and hands off a reference to the next step in the chain.
+
+.selectAll("p")
+Selects all paragraphs in the DOM. Because none exist yet, this returns an empty selection. Think of this empty selection as representing the paragraphs that will soon exist.
+
+.data(dataset)
+Counts and parses our data values. There are five values in our array called dataset, so everything past this point is executed five times, once for each value.
+
+.enter()
+To create new, data-bound elements, you must use enter(). This method looks at the current DOM selection, and then at the data being handed to it. If there are more data values than corresponding DOM elements, then enter() creates a new placeholder element on which you can work your magic. It then hands off a reference to this new placeholder to the next step in the chain.
+
+.append("p")
+Takes the empty placeholder selection created by enter() and appends a p element into the DOM. Hooray! Then it hands off a reference to the element it just created to the next step in the chain.
+
+.text("New paragraph!")
+Takes the reference to the newly created p and inserts a text value.

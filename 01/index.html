@@ -17,7 +17,7 @@
                 if (error) {  //If error is not null, something went wrong.
                     console.log(error);
                 } else {
-                    console.log(data);
+                    //console.log(data);
                     dataset = data;
                     //Include other code to execute after successful file load here
                 }
@@ -25,10 +25,20 @@
 
             dataset = [ 5, 10, 15, 20, 25 ];
 
-            var p = d3.select("body")
-                .append("p");
-
-                p.text("New paragraph!");
+            d3.select("body").selectAll("p") //empty selection
+            .data(dataset) // everything past this point is executed once for each value.
+            .enter() //  If there are more data values than corresponding DOM elements, then enter() creates a new placeholder element
+            .append("p") //appendes paragraphs
+            .text(function(d) { //recibe el dato actual
+                return "I can count up to " + d; 
+            })
+            .style("color", function(d) {
+                if (d > 15) {   //Threshold of 15
+                    return "red";
+                } else {
+                    return "black";
+                }
+            });
 
         </script>
     </body>
