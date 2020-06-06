@@ -1,7 +1,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Scales intro</title>
+        <title>Time</title>
         <script type="text/javascript" src="/d3.js"></script>
     </head>
     
@@ -59,10 +59,10 @@
             .attr("width", w)
             .attr("height", h);
 
-        var circles = svg.selectAll("circle")  // <-- No longer "rect"
+        var circles = svg.selectAll("circle")
             .data(dataset)
             .enter()
-            .append("circle")     // <-- No longer "rect"
+            .append("circle")
             .attr('cx', function(d){
                 return xScale(d[0]);
             })
