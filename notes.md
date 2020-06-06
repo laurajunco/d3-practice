@@ -89,3 +89,6 @@ Takes the reference to the newly created p and inserts a text value.
 - attr() sets DOM attribute values, whereas style() applies CSS styles directly to an element.
 
 ### drawing svgs
+- Another value, i, is also automatically populated for us.
+- i is a numeric index value of the current element. 
+- To make sure i is available to your custom function, you must include it as an argument in the function definition, function(d, i)
