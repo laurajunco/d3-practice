@@ -97,5 +97,5 @@ Takes the reference to the newly created p and inserts a text value.
 ### Making a bar chart
 - With D3, you always have to first select whatever it is you’re about to act on, even if that selection is momentarily empty
 
-### labels
-- 
+
+### Making a Scatterplot
