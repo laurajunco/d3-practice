@@ -92,3 +92,10 @@ Takes the reference to the newly created p and inserts a text value.
 - Another value, i, is also automatically populated for us.
 - i is a numeric index value of the current element. 
 - To make sure i is available to your custom function, you must include it as an argument in the function definition, function(d, i)
+
+
+### Making a bar chart
+- With D3, you always have to first select whatever it is you’re about to act on, even if that selection is momentarily empty
+
+### labels
+- 
