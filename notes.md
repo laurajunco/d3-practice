@@ -98,4 +98,20 @@ Takes the reference to the newly created p and inserts a text value.
 - With D3, you always have to first select whatever it is you’re about to act on, even if that selection is momentarily empty
 
 
-### Making a Scatterplot
+## Scales
+- Scales are functions that map from an input domain to an output range
+- The values in any dataset are unlikely to correspond exactly to pixel measurements for use in your visualization. Scales provide a convenient way to map those data values to new values useful for visualization purposes.
+- D3 scales are functions with parameters that you define. Once they are created, you call the scale function and pass it a data value, and it nicely returns a scaled output value. You can define and use as many scales as you like.
+- A scale is a mathematical relationship, with no direct visual output. I encourage you to think of scales and axes as two different, yet related, elements.
+
+### Domains and ranges
+- A scale’s input domain is the range of possible input data values
+- A scale’s output range is the range of possible output values, commonly used as display values in pixel units.
+- Normalization: the process of mapping a numeric value to a new value between 0 and 1, based on the possible minimum and maximum values.
+
+d3 max for simple datasets:
+
+```
+var simpleDataset = [7, 8, 4, 5, 2];
+d3.max(simpleDataset);  // Returns 8
+```
