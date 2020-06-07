@@ -122,3 +122,9 @@ d3.max(simpleDataset);  // Returns 8
     - Converting strings to Date objects
     - Using time scales, as needed
     - Formatting Date objects as human-friendly strings, for display to the user.
+
+
+### Axis
+- D3’s axes are functions whose parameters you define. When an axis function is called, it doesn’t return a value, but generates the visual elements of the axis, including lines, labels, and ticks.
+-  A g element is a group element. Group elements are invisible yet  can be used to containother elements. And we can apply transformations to g elements, which affects how visual elements within that group are rendered.
+- D3’s call() function takes the incoming selection, as received from the prior link in the chain, and hands that selection off to any function.
