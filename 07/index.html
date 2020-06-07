@@ -10,32 +10,30 @@
         var w = 800;
         var h = 400;
         var padding = 20;
-        var parseTime = d3.timeParse("%m/%d/%y");
-        //For converting Dates to strings
-        var formatTime = d3.timeFormat("%b %e");
-
+        var parseTime = d3.timeParse("%m/%d/%y"); //converting string to Date object
+        var formatTime = d3.timeFormat("%b %e"); //converting Dates to strings
         var dataset;
-            d3.csv('time_scale_data.csv', function(d) {
-                return {
-                    Date: parseTime(d.Date),
-                    Amount: parseInt(d.Amount)
-                };
-            }).then(function(data){
-                    dataset = data;
-                    console.log (dataset);
-                    drawVisualization();
-            });
 
+        d3.csv('time_scale_data.csv', function(d) {
+            return {
+                Date: parseTime(d.Date),
+                Amount: parseInt(d.Amount)
+            };
+        }).then(function(data){
+                dataset = data;
+                console.log (dataset);
+                drawVisualization();
+        });
 
         function drawVisualization() {
-            var xScale = d3.scaleTime()
-                    .domain([
-                            d3.min(dataset, function(d) { return d.Date; }),
-                            d3.max(dataset, function(d) { return d.Date; })
-                    ])
-                    .range([padding, w - padding]);
 
-            
+            var xScale = d3.scaleTime()
+                .domain([
+                        d3.min(dataset, function(d) { return d.Date; }),
+                        d3.max(dataset, function(d) { return d.Date; })
+                ])
+                .range([padding, w - padding]);
+
             var yScale = d3.scaleLinear()
                 .domain([
                     0,
@@ -43,7 +41,6 @@
                 ])
                 .range([h - padding, padding]);
 
-            //Create SVG element
             var svg = d3.select("body")
                 .append("svg")
                 .attr("width", w)
@@ -80,7 +77,6 @@
                 .attr("fill", "blue")
                 .attr("text-anchor", "left");
         }
-        
         </script>
     </body>
 </html>
