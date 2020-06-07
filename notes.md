@@ -137,3 +137,4 @@ d3.max(simpleDataset);  // Returns 8
 - ordinal scales (like d3.scaleBand()) use discrete ranges, meaning the output values are determined in advance, and could be numeric or not.
 
 ### Updating data
+. Make sure to always set an initial value before attempting to transition to a new value.

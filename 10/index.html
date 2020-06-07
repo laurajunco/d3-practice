@@ -72,15 +72,26 @@
 
             d3.select("p")
                 .on("click", function() {
-                    console.log('hi');
-                    dataset = [ 
-                        11, 12, 15, 20, 18, 17, 16, 18, 23, 25,5, 10, 13, 19, 60, 25, 22, 18, 15, 13 
-                    ];
 
-                    xScale.domain(d3.range(dataset.length));
+                    var numValues = dataset.length; 
+                    dataset = [];   
+                    var maxValue = 250;
+
+                    for (var i = 0; i < numValues; i++) {            
+                        var newNumber = Math.floor(Math.random() * maxValue); 
+                        dataset.push(newNumber);                       
+                    }
+
+                    xScale.domain(d3.range(dataset.length))
                     yScale.domain([0, d3.max(dataset)]);
 
                     bars.data(dataset)
+                        .transition()	// above changing attributes
+                        .delay(function(d, i) {
+                            return i / dataset.length * 2000;
+                        })
+                        .duration(500)
+                        .ease(d3.easeCubicInOut)
                         .attr("y", function(d) {
                             return h - yScale(d);
                         })
@@ -88,10 +99,16 @@
                             return yScale(d);
                         })
                         .attr("fill", function(d) {
-                            return 'rgb(' + Math.round( d * 10) + ',0,0)';
+                            return 'rgb(' + yScale(d) + ',0,0)';
                         });
 
                     labels.data(dataset)
+                        .transition()	// above changing attributes
+                        .delay(function(d, i) {
+                            return i / dataset.length * 2000;
+                        })
+                        .duration(500)
+                        .ease(d3.easeCubicInOut)
                         .text(function(d){
                             return d;
                         })
