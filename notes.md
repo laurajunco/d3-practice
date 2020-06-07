@@ -137,4 +137,8 @@ d3.max(simpleDataset);  // Returns 8
 - ordinal scales (like d3.scaleBand()) use discrete ranges, meaning the output values are determined in advance, and could be numeric or not.
 
 ### Updating data
-. Make sure to always set an initial value before attempting to transition to a new value.
+- Make sure to always set an initial value before attempting to transition to a new value.
+
+- by default, only one transition can be active on any given element at any given time
+
+- on("end", …), however, is a good place to specify additional transitions, because by the time on("end", …) is called, the primary transition has already ended, so initiating a new transition won’t cause any harm.

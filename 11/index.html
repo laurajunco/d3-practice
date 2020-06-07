@@ -73,7 +73,7 @@
                 return yScale(d[1]);
             })
             .attr('r', 2)
-            .attr('fill', 'red');
+            .attr('fill', 'black');
 
         svg.append("g")
             .attr("class", "x axis")
@@ -104,11 +104,23 @@
                     .data(dataset)
                     .transition()
                     .duration(1000)
+                    .on("start", function() {      // <-- Executes at start of transition
+                        d3.select(this)
+                            .attr("fill", "magenta")
+                            .attr("r", 3);
+                    })
                     .attr("cx", function(d) {
                         return xScale(d[0]);
                     })
                     .attr("cy", function(d) {
                         return yScale(d[1]);
+                    })
+                    .on("end", function() {        // <-- Executes at end of transition
+                        d3.select(this)
+                            .transition()
+                            .duration(300)    
+                            .attr("fill", "black")
+                            .attr("r", 2);
                     });
 
                 svg.select(".x.axis")
