@@ -115,3 +115,10 @@ d3 max for simple datasets:
 var simpleDataset = [7, 8, 4, 5, 2];
 d3.max(simpleDataset);  // Returns 8
 ```
+
+### Time scales
+- JavaScript and D3 can only perform time and date calculations on Date objects, not on strings
+- working with dates in D3 involves:
+    - Converting strings to Date objects
+    - Using time scales, as needed
+    - Formatting Date objects as human-friendly strings, for display to the user.
