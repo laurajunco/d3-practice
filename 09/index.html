@@ -1,0 +1,135 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Tiem Axes</title>
+        <script type="text/javascript" src="/d3.js"></script>
+        <style>
+            .axis path,
+            .axis line {
+                stroke:blue;
+                shape-rendering: crispEdges;
+            }
+
+            .axis text {
+                font-family: sans-serif;
+                font-size: 12px;
+                fill: blue;
+            }
+
+        </style>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+        var w = 800;
+        var h = 400;
+        var padding = 30;
+        var parseTime = d3.timeParse("%m/%d/%y"); //converting string to Date object
+        var formatTime = d3.timeFormat("%e"); //converting Dates to strings
+        var dataset;
+
+        d3.csv('time_scale_data.csv', function(d) {
+            return {
+                Date: parseTime(d.Date),
+                Amount: parseInt(d.Amount)
+            };
+        }).then(function(data){
+                dataset = data;
+                drawVisualization();
+        });
+
+        function drawVisualization() {
+
+            var startDate = d3.min(dataset, function(d) { return d.Date; });
+			var endDate = d3.max(dataset, function(d) { return d.Date; });
+
+            var xScale = d3.scaleTime()
+                .domain([
+                    d3.timeDay.offset(startDate, -1),
+                    d3.timeDay.offset(endDate, 1)
+				])
+                .range([padding, w - padding]);
+
+            var yScale = d3.scaleLinear()
+                .domain([
+                    0,
+                    d3.max(dataset, function(d) { return d.Amount; })
+                ])
+                .range([h - padding, padding]);
+
+            var xAxis = d3.axisBottom()
+                .scale(xScale)
+                .ticks(9)
+                .tickFormat(formatTime);
+
+            var yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(10);
+
+            var svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+			var lines = svg.selectAll("line")
+                .data(dataset)
+                .enter()
+                .append("line")
+                .attr("x1", function(d) {
+                    return xScale(d.Date);
+                })
+                .attr("x2", function(d) {
+                    return xScale(d.Date);
+                })
+                .attr("y1", h - padding)
+                .attr("y2", function(d) {
+                    return yScale(d.Amount);
+                })
+                .attr("stroke", "#ddd")
+                .attr("stroke-width", 1);
+            
+            
+            /* var ylines = svg.selectAll("line")
+                .data(dataset)
+                .enter()
+                .append("line")
+                .attr("x1", padding)
+                .attr("x2", function(d) {
+                    return xScale(d.Date);
+                })
+                .attr("y1", function(d) {
+                    return yScale(d.Amount);
+                })
+                .attr("y2", function(d) {
+                    return yScale(d.Amount);
+                })
+                .attr("stroke", "#ddd")
+                .attr("stroke-width", 1);
+            */
+
+            var circles = svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle")
+                .attr('cx', function(d){
+                    return xScale(d.Date);
+                })
+                .attr('cy', function(d){
+                    return yScale(d.Amount);
+                })
+                .attr('r','3')
+                .attr('fill', 'blue');
+
+            svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + (h - padding) + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate("+ padding + ",0)")
+                .call(yAxis);
+        }
+        </script>
+    </body>
+</html>
