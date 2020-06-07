@@ -128,3 +128,12 @@ d3.max(simpleDataset);  // Returns 8
 - D3’s axes are functions whose parameters you define. When an axis function is called, it doesn’t return a value, but generates the visual elements of the axis, including lines, labels, and ticks.
 -  A g element is a group element. Group elements are invisible yet  can be used to containother elements. And we can apply transformations to g elements, which affects how visual elements within that group are rendered.
 - D3’s call() function takes the incoming selection, as received from the prior link in the chain, and hands that selection off to any function.
+
+## Transitions
+- Updates: changes in data
+- Ordinal scales are typically used for ordinal data, usually categories with some inherent order to them
+- To set the domain of an ordinal scale, you typically specify an array with the category names
+- there is a very simple way to quickly generate an array of sequential numbers: the d3.range() method.
+- ordinal scales (like d3.scaleBand()) use discrete ranges, meaning the output values are determined in advance, and could be numeric or not.
+
+### Updating data

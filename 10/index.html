@@ -3,26 +3,31 @@
         <meta charset="utf-8">
         <title>D3 Page Template</title>
         <script type="text/javascript" src="/d3.js"></script>
-        <style>
-            div.bar {
-                display: inline-block;
-                width: 20px;
-                height: 75px;   /* We'll override height later */
-                background-color: teal;
-                margin-right: 2px;
-            }
-        </style>
     </head>
     
     <body>
+        <p>Click on this text to update the chart with new data values (once).</p>
+
         <script type="text/javascript">
 
             var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-                11, 12, 15, 20, 18, 17, 16, 18, 23, 25, 5, 10, 13, 19, 21, 25];
+                11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
             
-            var w = 500;
-            var h = 100;
+            var w = 800;
+            var h = 450;
             var barPadding = 2;
+
+            var xScale = d3.scaleBand()
+                .domain(d3.range(dataset.length)) //No. de categorias
+                .rangeRound([0, w]) // Enable rounding
+                .paddingInner(0.05); //spacing between bars
+                
+            var yScale = d3.scaleLinear()
+                .domain([
+                    0,
+                    d3.max(dataset)                    
+                ])
+                .range([0,h]);
 
             var svg = d3.select('body')
                 .append('svg')
@@ -33,18 +38,18 @@
                 .data(dataset)
                 .enter()
                 .append('rect')
-                .attr('x', function(d, i) { //responsive x
-                    return i * (w / dataset.length);
+                .attr('x', function(d, i) {
+                    return xScale(i);
                 })
-                .attr('y', function(d){ //h driven by data
-                    return h - d*4
+                .attr('y', function(d){ 
+                    return h - yScale(d)
                 })
-                .attr('width', w / dataset.length - barPadding) 
+                .attr('width', xScale.bandwidth()) 
                 .attr('height', function(d){
-                    return d * 4; //responsive width
+                    return yScale(d);
                 })
                 .attr("fill", function(d) {
-                    return 'rgb(0,' + Math.round( d * 10) + ',0)';
+                    return 'rgb(' + Math.round( d * 10) + ',0,0)';
                 });
 
             var labels = svg.selectAll("text")
@@ -55,16 +60,48 @@
                     return d;
                 })
                 .attr('x', function(d, i) { //responsive x
-                    return i * (w / dataset.length) 
-                    + (w / dataset.length - barPadding) / 2 ;
+                    return xScale(i) + xScale.bandwidth() / 2;
                 })
                 .attr('y', function(d){ //h driven by data
-                    return h - (d * 4) + 14; 
+                    return h - yScale(d) + 14; 
                 })
                 .attr('fill', 'white')
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "11px")
                 .attr("text-anchor", "middle");
+
+            d3.select("p")
+                .on("click", function() {
+                    console.log('hi');
+                    dataset = [ 
+                        11, 12, 15, 20, 18, 17, 16, 18, 23, 25,5, 10, 13, 19, 60, 25, 22, 18, 15, 13 
+                    ];
+
+                    xScale.domain(d3.range(dataset.length));
+                    yScale.domain([0, d3.max(dataset)]);
+
+                    bars.data(dataset)
+                        .attr("y", function(d) {
+                            return h - yScale(d);
+                        })
+                        .attr("height", function(d) {
+                            return yScale(d);
+                        })
+                        .attr("fill", function(d) {
+                            return 'rgb(' + Math.round( d * 10) + ',0,0)';
+                        });
+
+                    labels.data(dataset)
+                        .text(function(d){
+                            return d;
+                        })
+                        .attr('y', function(d){ //h driven by data
+                            return h - yScale(d) + 14; 
+                        })
+                        .attr('x', function(d, i) { //responsive x
+                            return xScale(i)+ xScale.bandwidth() / 2;
+                        })
+                });
 
         </script>
     </body>
