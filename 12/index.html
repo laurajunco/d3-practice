@@ -62,18 +62,7 @@
             .attr("width", w)
             .attr("height", h);
 
-        var clipPath = svg.append("clipPath") //Make a new clipPath
-            .attr("id", "chart-area") //Assign an ID
-            .append("rect") //Within the clipPath, create a new rect
-            .attr("x", padding)//Set rect's position and size…
-            .attr("y", padding)
-            .attr("width", w - padding * 2)
-            .attr("height", h - padding * 2);
-
-        var circles = svg.append('g')
-            .attr('id', 'circles')
-            .attr("clip-path", "url(#chart-area)") //Add reference to clipPath
-            .selectAll("circle")
+        var circles = svg.selectAll("circle")
             .data(dataset)
             .enter()
             .append("circle")
@@ -118,7 +107,7 @@
                     .on("start", function() {      // <-- Executes at start of transition
                         d3.select(this)
                             .attr("fill", "magenta")
-                            .attr("r", 9);
+                            .attr("r", 3);
                     })
                     .attr("cx", function(d) {
                         return xScale(d[0]);
@@ -126,11 +115,14 @@
                     .attr("cy", function(d) {
                         return yScale(d[1]);
                     })
-                    .transition()    // <-- Transition #2
-                    .duration(2000)
-                    .attr("fill", "black")
-                    .attr("r", 2);
-                    
+                    .on("end", function() {        // <-- Executes at end of transition
+                        d3.select(this)
+                            .transition()
+                            .duration(1000)    
+                            .attr("fill", "black")
+                            .attr("r", 2);
+                    });
+
                 svg.select(".x.axis")
                     .transition()
                     .duration(1000)
