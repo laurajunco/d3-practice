@@ -144,3 +144,7 @@ d3.max(simpleDataset);  // Returns 8
 - on("end", …), however, is a good place to specify additional transitions, because by the time on("end", …) is called, the primary transition has already ended, so initiating a new transition won’t cause any harm.
 
 - there is an even simpler way to schedule multiple transitions to run one after the other: we simply chain transitions together. Instead of reselecting elements and calling a new transition on each one with on("end", …), just tack a second transition onto the end of the chain.
+
+### Adding values
+- The data() method also returns a selection. Specifically, data() returns references to all elements to which data was just bound, which we call the update selection.
+- we can use merge() to combine that enter selection with the update selection (the old, preexisting rects).
