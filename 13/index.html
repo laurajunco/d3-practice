@@ -135,15 +135,12 @@
                         .merge(labels)
                         .transition()
                         .duration(500)
-                        .attr('x', function(d, i) { //responsive x
+                        .attr('x', function(d, i) {
                             return xScale(i) + xScale.bandwidth() / 2;
                         })
-                        .attr('y', function(d){ //h driven by data
+                        .attr('y', function(d){
                             return h - yScale(d) + 14; 
                         });
-
-
-
                 });
 
         </script>

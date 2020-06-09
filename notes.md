@@ -151,3 +151,5 @@ d3.max(simpleDataset);  // Returns 8
 
 ### Removing values
 - Whenever there are more DOM elements than data values, the exit selection contains references to those elements without data.
+- remove() is a special transition method that waits until the transition is complete, and then deletes the element from the DOM forever.
+- Visually speaking, it’s good practice to perform a transition first, rather than simply remove() elements right away.
