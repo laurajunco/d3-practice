@@ -6,7 +6,7 @@
     </head>
     
     <body>
-        <p>Click on this text to add a new data value to the chart!</p>
+        <p>Click on this text to remove a data value from the chart!</p>
 
         <script type="text/javascript">
 
@@ -27,13 +27,11 @@
                 .domain([0,d3.max(dataset)])
                 .range([0,h]);
 
-            //svg
             var svg = d3.select('body')
                 .append('svg')
                 .attr('width', w)
                 .attr('height', h);
 
-            //bars
             svg.selectAll('rect')
                 .data(dataset)
                 .enter()
@@ -52,7 +50,6 @@
                     return 'rgb(' + Math.round( d * 10) + ',0,0)';
                 });
 
-            //labels
             svg.selectAll("text")
                 .data(dataset)
                 .enter()
@@ -85,9 +82,6 @@
                     //Re-bind data to existing bars, return the 'update' selection
                     var bars = svg.selectAll('rect')
                         .data(dataset);
-                    
-                    var labels = svg.selectAll('text')
-                        .data(dataset);
 
                     //'bars' is now the update selection
 
@@ -118,32 +112,6 @@
 						.attr("height", function(d) {
 							return yScale(d);
 						});
-                    
-                    labels.enter()
-                        .append('text')
-                        .attr('x', w + + xScale.bandwidth() / 2)
-                        .attr('y', function(d){ 
-                            return h - yScale(d) + 14; 
-                        })
-                        .text(function(d){
-                            return d;
-                        })
-                        .attr('fill', 'white')
-                        .attr("font-family", "sans-serif")
-                        .attr("font-size", "11px")
-                        .attr("text-anchor", "middle")
-                        .merge(labels)
-                        .transition()
-                        .duration(500)
-                        .attr('x', function(d, i) { //responsive x
-                            return xScale(i) + xScale.bandwidth() / 2;
-                        })
-                        .attr('y', function(d){ //h driven by data
-                            return h - yScale(d) + 14; 
-                        });
-
-
-
                 });
 
         </script>

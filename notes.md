@@ -148,3 +148,6 @@ d3.max(simpleDataset);  // Returns 8
 ### Adding values
 - The data() method also returns a selection. Specifically, data() returns references to all elements to which data was just bound, which we call the update selection.
 - we can use merge() to combine that enter selection with the update selection (the old, preexisting rects).
+
+### Removing values
+- Whenever there are more DOM elements than data values, the exit selection contains references to those elements without data.
