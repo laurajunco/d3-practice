@@ -160,3 +160,16 @@ d3.max(simpleDataset);  // Returns 8
 - The default join is by index order, meaning the first data value is bound to the first DOM element in the selection, the second value is bound to the second element, and so on.
 - We can use a key function to control the data join with more specificity and ensure that the right datum is bound to the right rect element.
 - When we’re binding data, now the index order will be ignored; the key values will be used instead. This is what gives us the flexbility to add and remove data values (and elements) arbitrarily—as long as each one has a unique key.
+
+
+
+## Interactivity
+- Events don’t happen in a vacuum. Rather, they are always called on a specific element.
+- You can bind event listeners right at the moment when you first create elements.
+- A simple hover effect can be achieved with CSS alone—no JavaScript required!
+
+### click to sort
+- Interactive visualization is most powerful when it can provide different views of the data, empowering the user to explore the information from different angles.
+- sort() method, which reorders elements within the selection based on their bound data values. sort() needs to know how to decide which elements come first, and which later, so we pass into it a comparator function.
+- it is passed two values, a and b, which represent the data values of two different elements. (You could name them anything else; a and b are just the convention.) The comparator will be called on every pair of elements in our array, comparing a to b, until, in the end, all the array elements are sorted per whatever rules we specify.
+- Another way to prevent transition interruptions is to name your transitions. Named transitions can operate concurrently and don’t conflict with each other, assuming they’re not trying to modify the same attributes.
