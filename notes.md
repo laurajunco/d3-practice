@@ -153,3 +153,10 @@ d3.max(simpleDataset);  // Returns 8
 - Whenever there are more DOM elements than data values, the exit selection contains references to those elements without data.
 - remove() is a special transition method that waits until the transition is complete, and then deletes the element from the DOM forever.
 - Visually speaking, it’s good practice to perform a transition first, rather than simply remove() elements right away.
+
+
+### Data Joins with Keys
+- A data join happens whenever you bind data to DOM elements; that is, every time you call data().
+- The default join is by index order, meaning the first data value is bound to the first DOM element in the selection, the second value is bound to the second element, and so on.
+- We can use a key function to control the data join with more specificity and ensure that the right datum is bound to the right rect element.
+- When we’re binding data, now the index order will be ignored; the key values will be used instead. This is what gives us the flexbility to add and remove data values (and elements) arbitrarily—as long as each one has a unique key.
