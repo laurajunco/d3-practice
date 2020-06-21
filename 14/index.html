@@ -2,11 +2,11 @@
     <head>
         <meta charset="utf-8">
         <title>TRansitions</title>
-        <script type="text/javascript" src="/d3.js"></script>
+        <script type="text/javascript" src="../d3.js"></script>
     </head>
     
     <body>
-        <p>Click on this text to add a new data value to the chart!</p>
+        <p>Click on this text to remove a data value from the chart!</p>
 
         <script type="text/javascript">
 
@@ -103,7 +103,7 @@
                         .attr("fill", function(d) {
                             return 'rgb(' + Math.round( d * 10) + ',0,0)';
                         })
-                        .merge(bars)//Merges the enter selection with the update selection
+                        .merge(bars)
                         .transition()	
                         .duration(500)
 						.attr("x", function(d, i) {
