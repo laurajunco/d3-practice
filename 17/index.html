@@ -1,0 +1,132 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>TOOLTIPS </title>
+        <script type="text/javascript" src="../d3.js"></script>
+        <style>
+			#tooltip-d {
+				position: absolute;
+				width: 200px;
+				height: auto;
+				padding: 10px;
+				background-color: white;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				pointer-events: none;
+			}
+
+			#tooltip-d.hidden {
+				display: none;
+			}
+
+			#tooltip-d p {
+				margin: 0;
+				font-family: sans-serif;
+				font-size: 16px;
+				line-height: 20px;
+			}
+        </style>
+    </head>
+    
+    <body>
+		<div id="tooltip-d" class="hidden">
+			<p><strong>Important Label Heading</strong></p>
+			<p><span id="value">100</span>%</p>
+		</div>
+
+        <script type="text/javascript">
+
+            //Width and height
+			var w = 600;
+			var h = 250
+			
+			var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+			var xScale = d3.scaleBand()
+							.domain(d3.range(dataset.length))
+							.rangeRound([0, w])
+							.paddingInner(0.05);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, d3.max(dataset)])
+							.range([0, h]);
+			
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			//Create bars
+			svg.selectAll("rect")
+			   .data(dataset)
+			   .enter()
+			   .append("rect")
+            	.on("mouseover", function(d) {
+					//Get this bar's x/y values, then augment for the tooltip
+					var xPos = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
+					var yPos = parseFloat(d3.select(this).attr("y"));
+	
+					svg.append("text")
+						.attr("id", "tooltip")
+						.attr("x", xPos)
+						.attr("y", yPos + 14)
+						.attr("text-anchor", "middle")
+						.attr("font-family", "sans-serif")
+						.attr("font-size", "11px")
+						.attr("font-weight", "bold")
+						.attr("fill", "blue")
+						.text(d);
+
+					//Update the tooltip position and value
+					d3.select("#tooltip-d")
+						.style("left", xPos + "px")
+						.style("top", (yPos / 2 + h / 2) + "px")
+						.select("#value")
+						.text(d);
+
+					//Show the tooltip
+					d3.select("#tooltip-d").classed("hidden", false);
+				
+					d3.select(this)
+                        .attr("fill", "orange");
+					
+				})
+                .on("mouseout", function(d) {
+
+					//Hide the tooltip
+   					 d3.select("#tooltip-d").classed("hidden", true);
+
+					d3.select("#tooltip").remove();
+
+                    d3.select(this)
+						.transition("restoreBarColor")
+                        .duration(200)
+                        .attr("fill", "rgb(0, 0, " + (d * 10) + ")");
+                })
+			   .attr("x", function(d, i) {
+			   		return xScale(i);
+			   })
+			   .attr("y", function(d) {
+			   		return h - yScale(d);
+			   })
+			   .attr("width", xScale.bandwidth())
+			   .attr("height", function(d) {
+			   		return yScale(d);
+			   })
+			   .attr("fill", function(d) {
+					return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			   })
+			   .append("title")
+				.text(function(d) {
+					return d;
+				});
+
+		</script>
+    </body>
+</html>
