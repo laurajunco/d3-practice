@@ -19,6 +19,15 @@
 				stroke-dasharray: 2, 3;
 				stroke-width: 0.2;
 			}
+
+			.area {
+				fill: blue;
+				opacity: 90%;
+			}
+
+			.area.danger {
+				fill: red;
+			}
         </style>
     </head>
     
@@ -86,6 +95,20 @@
 					.attr("height", h);
 
 				
+				var area = d3.area()
+					.defined(function(d) { return d.average >= 0; })
+					.x(function(d) { return xScale(d.date); })
+					.y0(function() { return yScale.range()[0]; }) //first y value
+					.y1(function(d) { return yScale(d.average); })
+
+
+				var dangerArea = d3.area()
+					.defined(function(d) { return d.average >= 350; })
+					.x(function(d) { return xScale(d.date); })
+					.y0(function() { return yScale(350); }) //first y value
+					.y1(function(d) { return yScale(d.average); })
+
+				
 				//The x and y accessors tell the line generator how to decide where to place each point on the line.
 				//define line generator
 				var line = d3.line()
@@ -113,6 +136,18 @@
 					.attr("class", "line danger")
 					.attr("d", dangerLine)
 
+				//Create area
+				svg.append("path")
+					.datum(dataset) //the entire dataset is bound to only one element
+					.attr("class", "area")
+					.attr("d", area)
+
+				//Create danger area
+				svg.append("path")
+					.datum(dataset) //the entire dataset is bound to only one element
+					.attr("class", "area danger")
+					.attr("d", dangerArea)
+
 				//Draw 350 ppm line
 				svg.append("line")
 					.attr("class", "line safeLevel")
@@ -120,7 +155,6 @@
 					.attr("x2", w)
 					.attr("y1", yScale(350))
 					.attr("y2", yScale(350));
-
 
 				//axis
 				svg.append("g")
