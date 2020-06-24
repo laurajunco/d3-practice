@@ -1,0 +1,125 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Paths </title>
+        <script type="text/javascript" src="../d3.js"></script>
+        <style>
+			.line {
+				fill: none;
+				stroke: teal;
+				stroke-width: 0.5;
+			}
+			
+			.safeLevel {
+				stroke: red;
+				stroke-dasharray: 2, 3;
+				stroke-width: 0.2;
+			}
+        </style>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+
+            //Width and height
+			var w = 800;
+			var h = 350;
+			var padding = 40;
+
+			var dataset;
+
+			//For converting Dates to strings
+			var formatTime = d3.timeFormat("%Y");
+
+            d3.csv("data.csv", function(d) {
+                return {
+					//forces values to be tyoed as numbers
+					date: new Date(+d.year, (+d.month - 1)),
+					average: parseFloat(d.average) //parse from string to float
+                };
+            }).then(function(data, error){
+                if (error) {  //If error is not null, something went wrong.
+                    console.log(error);
+                } else {
+                   console.log('data loaded');
+                    dataset = data;
+					visualize();
+					//console.table(dataset, ["date", "average"]);
+                    //Include other code to execute after successful file load here
+                }
+            });
+
+			function visualize() {
+
+				xScale = d3.scaleTime()
+					.domain( [
+						d3.min(dataset, function(d) { return d.date;}),
+						d3.max(dataset, function(d) {return d.date}),
+					])
+					.range ([padding, w - padding]);
+
+				yScale = d3.scaleLinear()
+					.domain([
+						d3.min(dataset, function(d) {
+							if (d.average >= 0)
+								return d.average
+						}) -10,
+						d3.max(dataset, function(d) { return d.average})
+						])
+					.range([ h-padding , padding]);
+
+				var xAxis = d3.axisBottom()
+					.scale(xScale)
+					.ticks(10);
+
+				var yAxis = d3.axisLeft()
+					.scale(yScale)
+					.ticks(10);
+
+				var svg = d3.select("body")
+					.append("svg")
+					.attr("width", w)
+					.attr("height", h);
+
+				
+				//The x and y accessors tell the line generator how to decide where to place each point on the line.
+				//define line generator
+				var line = d3.line()
+					//Si defined es false no toma en cuenta ese valor
+					.defined(function(d) { return d.average >= 0; })
+					.x(function(d) { return xScale(d.date); })
+					.y(function(d) { return yScale(d.average); })
+					
+
+				//Create line
+				svg.append("path")
+					.datum(dataset) //the entire dataset is bound to only one element
+					.attr("class", "line")
+					.attr("d", line)
+
+				//Draw 350 ppm line
+				svg.append("line")
+					.attr("class", "line safeLevel")
+					.attr("x1", padding)
+					.attr("x2", w)
+					.attr("y1", yScale(350))
+					.attr("y2", yScale(350));
+
+
+				//axis
+				svg.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(0," + (h - padding) + ")")
+					.call(xAxis);
+
+				svg.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(" + padding + ",0)")
+					.call(yAxis);
+					}
+
+
+
+		</script>
+    </body>
+</html>

@@ -173,3 +173,11 @@ d3.max(simpleDataset);  // Returns 8
 - sort() method, which reorders elements within the selection based on their bound data values. sort() needs to know how to decide which elements come first, and which later, so we pass into it a comparator function.
 - it is passed two values, a and b, which represent the data values of two different elements. (You could name them anything else; a and b are just the convention.) The comparator will be called on every pair of elements in our array, comparing a to b, until, in the end, all the array elements are sorted per whatever rules we specify.
 - Another way to prevent transition interruptions is to name your transitions. Named transitions can operate concurrently and don’t conflict with each other, assuming they’re not trying to modify the same attributes.
+
+
+
+### Using paths
+- path elements are SVG’s answer to drawing irregular forms. Anything that’s not a rect, circle, or another simple shape can be drawn as a path
+
+# Dealing with missing data
+Or we could leave the data untouched, and use the line generator’s defined() method to determine, on the fly, whether or not each individual value is defined (or valid). defined() is just another configuration method, like x() and y(). If the result of its anonymous function is true, then that data value is included. If not, the value is excluded.
