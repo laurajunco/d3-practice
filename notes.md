@@ -193,3 +193,6 @@ Or we could leave the data untouched, and use the line generator’s defined() m
 - The pie layout takes our simple array of numbers and generates an array of objects, one object for each value. Each of those objects now has a few new values—most important, startAngle and endAngle.+
 
 - Arcs are defined as custom functions, and they require inner and outer radius values
+
+## Stack Layout
+- d3.stack() converts two-dimensional data into “stacked” data; it calculates a baseline value for each datum, so you can “stack” layers of data on top of one another
