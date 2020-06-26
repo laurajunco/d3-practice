@@ -1,0 +1,91 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title> Stacked bar chart </title>
+        <script type="text/javascript" src="../d3.js"></script>
+        <style>
+            text {
+				font-family: sans-serif;
+				font-size: 12px;
+				fill: white;
+			}
+        </style>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+
+        var w = 500;
+        var h = 300;
+
+        // The dataset is organized by columns. The stack layout reconfigures the data to be organized by categories.
+        var dataset = [
+            { apples: 5, oranges: 10, grapes: 22 },
+            { apples: 4, oranges: 12, grapes: 28 },
+            { apples: 2, oranges: 19, grapes: 32 },
+            { apples: 7, oranges: 23, grapes: 35 },
+            { apples: 23, oranges: 17, grapes: 43 }
+        ];
+
+        // we initialize our stack layout function, specifying the categories of interest with keys().
+        // Set up stack method
+        var stack = d3.stack()
+            .keys(["apples", "oranges", "grapes"])
+            .order(d3.stackOrderDescending);
+
+        // we call the stacking function on dataset, storing the results in series:
+        //data, stacked
+        var series = stack(dataset);
+
+        // scales
+        var xScale = d3.scaleBand()
+				.domain(d3.range(dataset.length))
+				.range([0, w])
+				.paddingInner(0.05);
+
+        var yScale = d3.scaleLinear()
+            .domain([0,				
+                d3.max(dataset, function(d) {
+                    //sum of all heights
+                    return d.apples + d.oranges + d.grapes;
+                })
+            ])
+            .range([h, 0]);
+
+        //Easy colors accessible via a 10-step ordinal scale
+        var colors = d3.scaleOrdinal(d3.schemeCategory10);
+
+        //svg
+        svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+        //add agroup for each row of data
+        var groups = svg.selectAll("g")
+                .data(series)
+                .enter()
+                .append("g")
+                .style("fill", function(d,i) {
+                    return colors(i);
+                });
+        
+        //add a rect for each data value
+        var rects = groups.selectAll("rect")
+                .data(function(d) {return d;}) //Using an anonymous function within data() lets us bind just a portion of the data. In this case, part of series (such as series[0])
+                .enter()
+                .append("rect")
+                .attr("x", function(d, i){
+                    return xScale(i)
+                })
+                .attr("y", function(d){
+                    return yScale(d[1])
+                })
+                .attr("height", function (d) {
+                    return yScale(d[0]) - yScale(d[1]);
+                })
+                .attr("width", xScale.bandwidth);
+
+		</script>
+    </body>
+</html>
