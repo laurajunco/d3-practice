@@ -184,4 +184,12 @@ Or we could leave the data untouched, and use the line generator’s defined() m
 
 
 
-# Selections
+# Layouts
+- D3 layouts take data that you provide and remap or otherwise transform it, thereby generating new data that is more convenient for a specific visual task
+
+## Pie layout
+- To draw those pretty wedges, we need to know a number of measurements, including an inner and outer radius for each wedge, plus the starting and ending angles.
+
+- The pie layout takes our simple array of numbers and generates an array of objects, one object for each value. Each of those objects now has a few new values—most important, startAngle and endAngle.+
+
+- Arcs are defined as custom functions, and they require inner and outer radius values
