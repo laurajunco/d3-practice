@@ -176,8 +176,12 @@ d3.max(simpleDataset);  // Returns 8
 
 
 
-### Using paths
+## Using paths
 - path elements are SVG’s answer to drawing irregular forms. Anything that’s not a rect, circle, or another simple shape can be drawn as a path
 
-# Dealing with missing data
+### Dealing with missing data
 Or we could leave the data untouched, and use the line generator’s defined() method to determine, on the fly, whether or not each individual value is defined (or valid). defined() is just another configuration method, like x() and y(). If the result of its anonymous function is true, then that data value is included. If not, the value is excluded.
+
+
+
+# Selections
