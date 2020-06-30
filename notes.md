@@ -196,3 +196,24 @@ Or we could leave the data untouched, and use the line generator’s defined() m
 
 ## Stack Layout
 - d3.stack() converts two-dimensional data into “stacked” data; it calculates a baseline value for each datum, so you can “stack” layers of data on top of one another
+
+
+## Force layout
+- Force-directed layouts are so called because they use simulations of physical forces to arrange elements on the screen.
+- Force layouts are typically used with network data. In computer science, this kind of dataset is called a graph. A simple graph is a list of nodes and edges.
+- The nodes are entities in the dataset, and the edges are the connections between nodes. Some nodes will be connected by edges, and others won’t. Nodes are commonly represented as circles, and edges as lines.
+- D3’s force layout expects us to provide nodes and edges separately, as arrays of objects.
+- To create forces, call force() as many times as you like, each time specifying an arbitrary name for each force (in case you want to reference it later) and the name of a force function.
+
+### d3.forceManyBody()
+Creates a “many-body” force that acts on all nodes, meaning this can be used to either attract all nodes to each other or repel all nodes from each other. Try applying different strength() values, and see what happens. Positive values attract; negative values repel. The default strength() is –30, so we see a slight repelling force.
+
+### d3.forceLink()
+Our nodes are connected by edges (as opposed to being free-floating), so we apply this force, specifying dataset.edges. Specify a target distance() (the default is 30 pixels), and this force will struggle against any competing forces to achieve that distance. Experiment by plugging in different distance values—smaller numbers will result in shorter edges, larger values in longer edges.
+
+### d3.forceCenter()
+This force centers the entire simulation around whatever point you specify with x() and y(). In my example, I set x and y to the center point of the SVG (w/2 and h/2). Try setting those coordinates to other values, and note how the entire composition is repositioned.
+
+- Physics simulations use the word “tick” to refer to the passage of some amount of time, like the ticking second hand of a clock
+- D3’s force simulation “ticks” forward through time, just like every other physics simulation. With each tick, the simulation adjusts the position values for each node and edge according to the rules we specified when the layout was first initialized
+- To see this progress visually, we need to update the associated elements—the lines and circles—on every tick:
